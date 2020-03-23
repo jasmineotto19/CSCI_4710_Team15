@@ -1,0 +1,221 @@
+<!DOCTYPE html>
+
+<html lang="en"><head><meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <title>Bootstrap Example</title>
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="./bootstrap.min.css">
+  <script src="./jquery.min.js.download"></script>
+  <script src="./bootstrap.min.js.download"></script>
+
+  
+
+  <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+
+
+
+<script type="text/javascript">
+    var human = 0
+    var vampire = 0
+    var num;
+
+    google.charts.load('current', {'packages':['corechart']});
+    google.charts.setOnLoadCallback(drawChart);
+
+    function drawChart() {
+        var data = google.visualization.arrayToDataTable([
+            ['Type', 'Number'],
+            ['Human', human],
+            ['Vampire', vampire]
+        ]);
+
+        var options = {'title':'Pie Chart', 'width':550, 'height':400};
+
+        var chart = new google.visualization.PieChart(document.getElementById('piechart'));
+        chart.draw(data, options);
+    }
+</script>
+
+  <script type="text/javascript">
+    function display_chosen_option() {
+      if (document.getElementById('mySelect').selectedIndex == 0){
+        window.alert('Random Guess Logic Selected')
+      }
+      else if (document.getElementById('mySelect').selectedIndex == 1){
+        window.alert('Threshold Based Method Logic Selected')
+      }
+    }
+
+    function Threshold(){
+        num = 0;
+        if (!(document.getElementById('garlic_checkbox').checked)){
+            num+=3;
+        }
+
+        if (!(document.getElementById('shadow_checkbox').checked)){
+            num+=4;
+        }
+
+        if (document.getElementById('complexion_checkbox').checked){
+            num+=3;
+        }
+    }
+
+    function output_user_info() {
+        var table = document.getElementById("saving_table");
+        var row = table.insertRow(1);
+        var cell1 = row.insertCell(0);
+        var cell2 = row.insertCell(1);
+        var cell3 = row.insertCell(2);
+        var cell4 = row.insertCell(3);
+        var cell5 = row.insertCell(4);
+        var cell6 = row.insertCell(5);
+
+        cell1.innerHTML = document.getElementById('first_name').value + " " + document.getElementById('last_name').value;
+        if (document.getElementById('male_radio').checked){
+            cell2.innerHTML = 'Male';
+        }else if (document.getElementById('female_radio').checked){
+            cell2.innerHTML = 'Female';
+        }
+
+        if (document.getElementById('garlic_checkbox').checked){
+            cell3.innerHTML = 'Yes'
+        }else{
+            cell3.innerHTML = 'No'
+        }
+
+        if (document.getElementById('shadow_checkbox').checked){
+            cell4.innerHTML = 'Yes'
+        }else{
+            cell4.innerHTML = 'No'
+        }
+
+        if (document.getElementById('complexion_checkbox').checked){
+            cell5.innerHTML = 'Yes'
+        }else{
+            cell5.innerHTML = 'No'
+        }
+
+        if (document.getElementById('mySelect').selectedIndex == 1){
+            Threshold();
+            if (num > 6){
+                cell6.innerHTML = 'Yes'
+                console.log(num)
+            }else{
+                cell6.innerHTML = 'No'
+                console.log(num)
+            }   
+        }else if (document.getElementById('mySelect').selectedIndex == 0){
+            if (Math.floor((Math.random() * 100) + 1) % 2 == 0){
+                cell6.innerHTML = 'Yes'
+            }else{
+                cell6.innerHTML = 'No'
+            }    
+        }
+        else {
+            window.alert('Select Model Logic')
+        }
+
+        if (cell6.innerHTML == 'Yes'){
+            document.getElementById('cpt').innerHTML = document.getElementById('first_name').value + " " + document.getElementById('last_name').value + " is a vampire"
+            vampire+=1
+        }else{
+            document.getElementById('cpt').innerHTML = document.getElementById('first_name').value + " " + document.getElementById('last_name').value + " is not a vampire"
+            human+=1
+        }
+        
+        drawChart()
+
+    }
+  </script>
+</head>
+<body data-gr-c-s-loaded="true" cz-shortcut-listen="true">
+
+<div class="container">
+  <h2>Vampire App</h2>
+
+  <div class="form-group">
+    <label for="mySelect">Select Model Logic:</label>
+    <select class="form-control" id="mySelect">
+      <option value="1">Random Guess</option>
+      <option value="2">Threshold Based Method</option>
+    </select>   
+
+
+    
+  </div>
+
+  <h2>Input Student Information</h2>
+  <form>
+    <div class="form-row">
+      <div class="form-group col-md-4">
+        <label for="first_name">First Name</label>
+        <input type="text" class="form-control" id="first_name" placeholder="First Name">
+      </div>
+
+      <div class="form-group col-md-4">
+        <label for="last_name">Last Name</label>
+        <input type="text" class="form-control" id="last_name" placeholder="Last Name">
+      </div>
+    </div>
+
+
+   <div class="form-row">
+      <div class="form-group col-md-12">
+        <div class="radio">
+          <label><input type="radio" name="optradio" id="male_radio" >Male</label>
+        </div>
+        <div class="radio">
+          <label><input type="radio" name="optradio" id="female_radio">Female</label>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-row">
+      <div class="form-group col-md-12">
+        <div class="checkbox">
+          <label><input type="checkbox" id="garlic_checkbox">Garlic</label>
+        </div>
+        <div class="checkbox">
+          <label><input type="checkbox" id="shadow_checkbox">Shadow</label>
+        </div>
+        <div class="checkbox">
+            <label><input type="checkbox" id="complexion_checkbox">Pale Complexion</label>
+        </div>
+      </div>
+    </div>
+  </form>
+
+  
+
+
+    <table class="table table-bordered" id="saving_table">
+       <caption>Student Information Table</caption>
+       <thead>
+         <tr>
+           <th>Name</th>
+           <th>Gender</th>
+           <th>Garlic</th>
+           <th>Shadow</th>
+           <th>Complexion pale</th>
+           <th>Vampire</th>
+         </tr>
+       </thead>
+    </table>
+
+    <div class="form-group col-md-12">
+        <button class="btn btn-primary" onclick="output_user_info()">Submit</button>
+
+    </div>
+
+    <div class="form-group col-md-12">
+        <p id="cpt"></p>
+    </div>
+
+    <div class="form-group col-md-12" id="piechart"></div>
+
+</div>
+
+
+
+</body></html>
